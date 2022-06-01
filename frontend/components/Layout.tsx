@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout() {
+export default function Layout({title}) {
+  console.log(title);
   const classes = useStyles();
   const {shoppingList} = useContext(StoreContext) as storeContextType;
   console.log("shoppingList", shoppingList);
