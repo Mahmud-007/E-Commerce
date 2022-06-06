@@ -12,12 +12,18 @@ import {
 } from "@material-ui/core";
 import Layout from "../components/Layout";
 import { StoreContext, StoreProvider } from "../utils/StoreContext";
-import { productType, storeContextType, productContextType } from "../utils/types";
+import {
+  productType,
+  storeContextType,
+  productContextType,
+} from "../utils/types";
 import { ProductContext } from "../utils/ProductContext";
+import water_bottle from "../assets/water_bottle.jpg";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const { addToCart } = useContext(StoreContext) as storeContextType;
-  const {productList} = useContext(ProductContext) as productContextType;
+  const { productList } = useContext(ProductContext) as productContextType;
 
   const handleAddToCart = (product: productType) => {
     addToCart(product);
@@ -25,24 +31,20 @@ const Home: NextPage = () => {
   };
   return (
     <div>
-      <Layout />
+      <Layout title="Shop" />
       <h1>Products</h1>
       <Grid container spacing={3}>
         {productList.map(
-          (product: {
-            name: string;
-            slug: any;
-            image: string | undefined;
-            price: number;
-          }) => (
+          (product: { name: string; image: any; price: number }) => (
             <Grid item md={4} key={product.name}>
               <Card>
                 <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    image={product.image}
-                    title={product.name}
-                  ></CardMedia>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width="400px"
+                    height="400px"
+                  />
                   <CardContent>
                     <Typography>{product.name}</Typography>
                   </CardContent>

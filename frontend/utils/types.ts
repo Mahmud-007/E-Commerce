@@ -1,8 +1,7 @@
 export interface productType {
-  image: string;
+  image: any;
   name: string;
   price: number;
-  slug: null;
 }
 
 export type storeContextType = {
