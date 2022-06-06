@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Layout from "../components/Layout";
 import {
   productType,
@@ -15,17 +15,46 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import Link from "next/link";
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const Cart: NextPage = () => {
+  const router = useRouter();
   const classes = useStyles();
   const { shoppingList } = useContext(StoreContext) as storeContextType;
+  const [address, setAddress] = useState("");
+  const [message, setMessage] = useState("");
   console.log({ shoppingList });
+  const checkoutHanlder = () => {
+    axios
+      .put(
+        "http://localhost:8080/ecom/api/shop/checkout",
+        {
+          address: address,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setMessage(response.data);
+        setTimeout(() => {
+          router.push("/");
+        }, 5000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <Layout title="Cart" />
@@ -56,6 +85,13 @@ const Cart: NextPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <input
+        type="text"
+        placeholder="Address"
+        onChange={(e: any) => setAddress(e.target.value)}
+      ></input>
+      <button onClick={checkoutHanlder}>Checkout</button>
+      <h3>hello {message}</h3>
     </div>
   );
 };

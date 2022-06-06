@@ -15,7 +15,6 @@ const BankDetail: NextPage = () => {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    console.log("submitHandler", e);
     axios
       .post(
         "http://localhost:8080/ecom/api/bank-details",
