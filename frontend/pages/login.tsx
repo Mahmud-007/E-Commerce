@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const classes = useStyles();
+  const router = useRouter();
   const submitHandler = async (e: any) => {
     e.preventDefault();
     axios
@@ -37,6 +37,7 @@ const Login: NextPage = () => {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("Token", response.data.token);
+        router.push("/");
       })
       .catch((error) => {
         console.log(error);
@@ -60,6 +61,8 @@ const Login: NextPage = () => {
         />
         <input type="submit" placeholder="Login" />
       </form>
+      <br />
+      <Link href="/signup">Sign UP</Link>
     </div>
   );
 };

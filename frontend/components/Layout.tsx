@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,6 +10,9 @@ import Badge from "@material-ui/core/Badge";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import { StoreContext, StoreProvider } from "../utils/StoreContext";
 import { storeContextType, productType } from "../utils/types";
+import { useRouter } from "next/router";
+import { UrlObject } from "url";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,38 +26,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout({title}) {
-  console.log(title);
+export default function Layout({ title }) {
+  const router = useRouter();
   const classes = useStyles();
-  const {shoppingList} = useContext(StoreContext) as storeContextType;
-  console.log("shoppingList", shoppingList);
-  return ( 
-    
-      <div className={classes.root}>
-        <AppBar position="static" color="primary">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <LocalMallIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              className={classes.title}
-              style={{ flex: 1 }}
-            >
-              E-Commerce
-            </Typography>
+  const [isCart, setIsCart] = useState(false);
+  const [isHome, setIsHome] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const { shoppingList } = useContext(StoreContext) as storeContextType;
+  if (isCart) {
+    router.push("/cart");
+  }
+  if (isLogin) {
+    router.push("/login");
+  }
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="primary">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <LocalMallIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            style={{ flex: 1 }}
+          >
+            <a href="https://localhost:3000/"></a>
+            E-Commerce
+          </Typography>
 
-            <Badge badgeContent={shoppingList.length} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+          <Badge badgeContent={shoppingList.length} color="secondary">
+            {/* <a href="https://localhost:3000/cart" >
+              <ShoppingCartIcon/>
+            </a> */}
+            <ShoppingCartIcon onClick={() => setIsCart(true)} />
+          </Badge>
+          {/* <Button color="inherit" onClick={() => setIsLogin(true)}>
+            Login
+          </Button> */}
+          <Link
+            href="/login"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            Login
+          </Link>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
