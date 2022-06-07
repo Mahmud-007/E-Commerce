@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { NextPage } from "next";
 import axios from "axios";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Layout from "../components/Layout";
 
 const BankDetail: NextPage = () => {
@@ -21,7 +21,7 @@ const BankDetail: NextPage = () => {
     axios
       .post(
         "http://localhost:8080/ecom/api/bank-details",
-        { bodyParameters },
+        { ...bodyParameters },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
         }
@@ -37,7 +37,7 @@ const BankDetail: NextPage = () => {
 
   return (
     <div>
-      <Layout title="Bank Detail"/>
+      <Layout title="Bank Detail" />
       <h1>Bank Details</h1>
       <form onSubmit={submitHandler}>
         <input
