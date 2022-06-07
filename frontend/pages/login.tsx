@@ -1,19 +1,10 @@
-import {
-  List,
-  ListItem,
-  Typography,
-  TextField,
-  Button,
-  Link,
-} from "@material-ui/core";
+import { Link } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import NextLink from "next/link";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "../components/Layout";
-import Cookies from "js-cookie";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +28,11 @@ const Login: NextPage = () => {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("Token", response.data.token);
-        router.push("/bank-detail");
+        if (response.data.hasBankDetails) {
+          router.push("/");
+        } else {
+          router.push("/bank-detail");
+        }
       })
       .catch((error) => {
         console.log(error);
