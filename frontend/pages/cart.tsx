@@ -92,7 +92,7 @@ const Cart: NextPage = () => {
         onChange={(e: any) => setAddress(e.target.value)}
       ></input>
       <button onClick={checkoutHanlder}>Checkout</button>
-      <h3>hello {message}</h3>
+      <h3>{message}</h3>
     </div>
   );
 };

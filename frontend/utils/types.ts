@@ -3,6 +3,7 @@ export interface productType {
   image: any;
   name: string;
   price: number;
+  quantity: number;
 }
 
 export type storeContextType = {

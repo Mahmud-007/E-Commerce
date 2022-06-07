@@ -31,9 +31,11 @@ const Home: NextPage = () => {
     axios.post(
       "http://localhost:8080/ecom/api/shop/update-cart",
       {
+        productId: product.id,
         productName: product.name,
         productPrice: product.price,
         productImage: product.image.src,
+        productQuantity: 1
       },
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
