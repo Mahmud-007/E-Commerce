@@ -18,8 +18,8 @@ import {
   productContextType,
 } from "../utils/types";
 import { ProductContext } from "../utils/ProductContext";
-import water_bottle from "../assets/water_bottle.jpg";
 import Image from "next/image";
+import axios from "axios";
 
 const Home: NextPage = () => {
   const { addToCart } = useContext(StoreContext) as storeContextType;
@@ -28,6 +28,21 @@ const Home: NextPage = () => {
   const handleAddToCart = (product: productType) => {
     addToCart(product);
     console.log("product", product);
+    axios.post(
+      "http://localhost:8080/ecom/api/shop/update-cart",
+      {
+        productName: product.name,
+        productPrice: product.price,
+        productImage: product.image.src,
+      },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+      }
+    ).then((response) => {
+      console.log(response);
+    }).catch((err) => {
+      console.log(err);
+    });
   };
   return (
     <div>

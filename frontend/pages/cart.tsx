@@ -46,8 +46,9 @@ const Cart: NextPage = () => {
       )
       .then((response) => {
         console.log(response);
-        setMessage(response.data);
+        setMessage(response.data.message);
         setTimeout(() => {
+            // empty shopping list
           router.push("/");
         }, 5000);
       })

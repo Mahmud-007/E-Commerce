@@ -37,7 +37,7 @@ const Login: NextPage = () => {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("Token", response.data.token);
-        router.push("/");
+        router.push("/bank-detail");
       })
       .catch((error) => {
         console.log(error);

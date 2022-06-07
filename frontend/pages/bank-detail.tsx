@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NextPage } from "next";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const BankDetail: NextPage = () => {
   const [acNumber, setacNumber] = useState("");
   const [acName, setacName] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const bodyParameters = {
     bankAccountNo: acNumber,
@@ -25,6 +27,7 @@ const BankDetail: NextPage = () => {
       )
       .then((response) => {
         console.log("response", response.data);
+        router.push("/");
       })
       .catch((error) => {
         console.log("error", error);

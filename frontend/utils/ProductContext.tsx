@@ -14,16 +14,19 @@ export const ProductContext = createContext<productContextType | null>(
 export const ProductProvider = (props: any) => {
   const productListDefault: productType[] = [
     {
+      id:1,
       image: tea_pot,
       name: "Tea Pot",
       price: 50,
     },
     {
+      id:2,
       image: mug,
       name: "Mug",
       price: 20,
     },
     {
+      id:3,
       image: water_bottle,
       name: "Water Bottle",
       price: 30,
