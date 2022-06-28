@@ -5,7 +5,7 @@ import {
   storeContextType,
   productContextType,
 } from "../utils/types";
-import { StoreContext, StoreProvider } from "../utils/StoreContext";
+import { StoreContext, StoreProvider } from "../context/StoreContext";
 import { NextPage } from "next";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";

@@ -11,13 +11,13 @@ import {
   Button,
 } from "@material-ui/core";
 import Layout from "../components/Layout";
-import { StoreContext, StoreProvider } from "../utils/StoreContext";
+import { StoreContext, StoreProvider } from "../context/StoreContext";
 import {
   productType,
   storeContextType,
   productContextType,
 } from "../utils/types";
-import { ProductContext } from "../utils/ProductContext";
+import { ProductContext } from "../context/ProductContext";
 import Image from "next/image";
 import axios from "axios";
 

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { productContextType, productType } from "./types";
+import { productContextType, productType } from "../utils/types";
 import water_bottle from "../assets/water_bottle.jpg";
 import mug from "../assets/mug.jpg";
 import tea_pot from "../assets/tea_pot.jpg";

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { productType, storeContextType } from "./types";
+import { productType, storeContextType } from "../utils/types";
 
 
 const storeContextDefault: storeContextType = {

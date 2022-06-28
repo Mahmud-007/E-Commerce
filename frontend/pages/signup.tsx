@@ -28,7 +28,7 @@ const Signup: NextPage = () => {
   };
   return (
     <div>
-      <Layout title="Signup" />
+      <Layout title="Signup"/>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <input
@@ -49,7 +49,7 @@ const Signup: NextPage = () => {
         <input type="submit" placeholder="Login" />
       </form>
       <br />
-      <Link href="/signup">Sign UP</Link>
+      <Link href="/login">Login</Link>
     </div>
   );
 };

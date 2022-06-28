@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
-import { StoreProvider } from "../utils/StoreContext";
-import { ProductProvider } from "../utils/ProductContext";
+import { StoreProvider } from "../context/StoreContext";
+import { ProductProvider } from "../context/ProductContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
