@@ -13,12 +13,12 @@ import { storeContextType, productType } from "../utils/types";
 import { useRouter } from "next/router";
 import { UrlObject } from "url";
 import Link from "next/link";
-import Head from 'next/head'
-
+import Head from "next/head";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: "100%",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout(props:any) {
+export default function Layout(props: any) {
   const router = useRouter();
   const classes = useStyles();
   const [isCart, setIsCart] = useState(false);
@@ -55,16 +55,20 @@ export default function Layout(props:any) {
               color="inherit"
               aria-label="menu"
             >
-              <LocalMallIcon />
+              <Link href="/">
+                <LocalMallIcon />
+              </Link>
             </IconButton>
-            <Typography
-              variant="h6"
-              className={classes.title}
-              style={{ flex: 1 }}
-            >
-              <a href="https://localhost:3000/"></a>
-              E-Commerce
-            </Typography>
+
+            <Link href="/">
+              <Typography
+                variant="h6"
+                className={classes.title}
+                style={{ flex: 1 }}
+              >
+                KAIMASU E-Commerce
+              </Typography>
+            </Link>
 
             <Badge badgeContent={shoppingList.length} color="secondary">
               {/* <a href="https://localhost:3000/cart" >
@@ -72,15 +76,9 @@ export default function Layout(props:any) {
             </a> */}
               <ShoppingCartIcon onClick={() => setIsCart(true)} />
             </Badge>
-            {/* <Button color="inherit" onClick={() => setIsLogin(true)}>
-            Login
-          </Button> */}
-            <Link
-              href="/login"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
+            <Button color="inherit" onClick={() => router.push("/signin")}>
               Login
-            </Link>
+            </Button>
           </Toolbar>
         </AppBar>
       </div>

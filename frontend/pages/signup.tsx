@@ -124,10 +124,10 @@ export default function SignUp() {
               {error ? (
                 <Alert severity="warning">Check Your password</Alert>
               ) : null}
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
