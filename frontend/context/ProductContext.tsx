@@ -18,29 +18,23 @@ export const ProductProvider = (props: any) => {
       image: tea_pot,
       name: "Tea Pot",
       price: 50,
-      quantity:0,
+      quantity:1,
     },
     {
       id:2,
       image: mug,
       name: "Mug",
       price: 20,
-      quantity:0,
+      quantity:1,
     },
     {
       id:3,
       image: water_bottle,
       name: "Water Bottle",
       price: 30,
-      quantity:0,
+      quantity:1,
     },
-    {
-      id:3,
-      image: water_bottle,
-      name: "Water Bottle",
-      price: 30,
-      quantity:0,
-    },
+    
   ];
   const [productList, setProductList] =
     useState<productType[]>(productListDefault);

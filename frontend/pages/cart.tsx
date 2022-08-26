@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import {
   productType,
@@ -23,13 +23,15 @@ const useStyles = makeStyles({
 });
 import axios from "axios";
 import { useRouter } from "next/router";
+import Button from '@mui/material/Button';
 
 const Cart: NextPage = () => {
-  const router = useRouter();
-  const classes = useStyles();
-  const { shoppingList } = useContext(StoreContext) as storeContextType;
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
+  const classes = useStyles();
+  const { shoppingList, getCart } = useContext(StoreContext) as storeContextType;
   console.log({ shoppingList });
   const checkoutHanlder = () => {
     axios
@@ -48,7 +50,7 @@ const Cart: NextPage = () => {
         console.log(response);
         setMessage(response.data.message);
         setTimeout(() => {
-            // empty shopping list
+          // empty shopping list
           router.push("/");
         }, 5000);
       })
@@ -56,6 +58,14 @@ const Cart: NextPage = () => {
         console.log(error);
       });
   };
+  useEffect(() => {
+    getCart();
+    let user = localStorage.getItem("User");
+    if (!user) {
+      router.push("/signin");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Layout title="Cart" />
@@ -80,19 +90,13 @@ const Cart: NextPage = () => {
                   {row.name}
                 </TableCell>
                 <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">1</TableCell>
+                <TableCell align="right">{row.quantity}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <input
-        type="text"
-        placeholder="Address"
-        onChange={(e: any) => setAddress(e.target.value)}
-      ></input>
-      <button onClick={checkoutHanlder}>Checkout</button>
-      <h3>{message}</h3>
+      <Button sx={{m:2}} variant="contained" onClick={() => router.push("/checkout")}>Checkout</Button>
     </div>
   );
 };

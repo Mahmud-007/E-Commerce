@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NextPage } from "next";
 import Box from "@mui/material/Box";
 import {
@@ -23,6 +23,8 @@ import { ProductContext } from "../context/ProductContext";
 import Image from "next/image";
 import axios from "axios";
 import ProductModal from "../components/ProductModal";
+import { useRouter } from 'next/router'
+
 
 const style = {
   position: "absolute",
@@ -46,13 +48,14 @@ const defaultProduct: productType = {
 
 const Home: NextPage = () => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [modalProduct, setModalProduct] = useState<productType>(defaultProduct);
 
   const { addToCart } = useContext(StoreContext) as storeContextType;
   const { productList } = useContext(ProductContext) as productContextType;
+  const router = useRouter()
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleAddToCart = (product: productType) => {
     addToCart(product);
     console.log("product", product);
@@ -71,7 +74,7 @@ const Home: NextPage = () => {
         }
       )
       .then((response) => {
-        console.log(response);
+        console.log({ response });
       })
       .catch((err) => {
         console.log(err);
@@ -82,6 +85,13 @@ const Home: NextPage = () => {
     setModalProduct(product);
     handleOpen();
   };
+  useEffect(() => {
+    const user = localStorage.getItem("User");
+    if (!user) {
+      router.push("/signin");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Layout title="Shop" />
@@ -94,7 +104,7 @@ const Home: NextPage = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          {modalProduct.name}
+            {modalProduct.name}
           </Typography>
           <Typography>
             <Image
@@ -107,10 +117,10 @@ const Home: NextPage = () => {
           </Typography>
         </Box>
       </Modal>
-      <Grid container spacing={2}>
+      <Grid container spacing={5}>
         {productList.map(
           (product: { name: string; image: any; price: number }) => (
-            <Grid item md={3} key={product.name} justifyContent="center">
+            <Grid item md={4} key={product.name} justifyContent="center">
               <Card>
                 <CardActionArea>
                   <Image

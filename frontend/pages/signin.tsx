@@ -15,8 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Copyright from "../components/Copyright"
-
+import Copyright from "../components/Copyright";
 
 const theme = createTheme();
 
@@ -34,6 +33,7 @@ export default function SignIn() {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("Token", response.data.token);
+        localStorage.setItem("User", JSON.stringify(response.data));
         if (response.data.hasBankDetails) {
           router.push("/");
         } else {
