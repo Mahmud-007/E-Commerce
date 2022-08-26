@@ -22,9 +22,7 @@ import {
 import { ProductContext } from "../context/ProductContext";
 import Image from "next/image";
 import axios from "axios";
-import ProductModal from "../components/ProductModal";
-import { useRouter } from 'next/router'
-
+import { useRouter } from "next/router";
 
 const style = {
   position: "absolute",
@@ -52,7 +50,7 @@ const Home: NextPage = () => {
 
   const { addToCart } = useContext(StoreContext) as storeContextType;
   const { productList } = useContext(ProductContext) as productContextType;
-  const router = useRouter()
+  const router = useRouter();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -90,7 +88,7 @@ const Home: NextPage = () => {
     if (!user) {
       router.push("/signin");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>
@@ -103,31 +101,36 @@ const Home: NextPage = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
             {modalProduct.name}
-          </Typography>
-          <Typography>
-            <Image
-              src={modalProduct.image}
-              alt={modalProduct.name}
-              width="400px"
-              height="400px"
-            />
-            ${modalProduct.price}
-          </Typography>
+          </Typography> */}
+          <h2>{modalProduct.name}</h2>
+          <Image
+            src={modalProduct.image}
+            alt={modalProduct.name}
+            width="400px"
+            height="400px"
+          />
+          <Typography>Price: ${modalProduct.price}</Typography>
         </Box>
       </Modal>
-      <Grid container spacing={5}>
+      <Grid
+        container
+        spacing={10}
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+      >
         {productList.map(
           (product: { name: string; image: any; price: number }) => (
-            <Grid item md={4} key={product.name} justifyContent="center">
+            <Grid item md={3} key={product.name} justifyContent="center">
               <Card>
                 <CardActionArea>
                   <Image
                     src={product.image}
                     alt={product.name}
-                    width="400px"
-                    height="400px"
+                    width="500px"
+                    height="450px"
                     onClick={() => modalHandler(product)}
                   />
                   <CardContent>
@@ -145,6 +148,31 @@ const Home: NextPage = () => {
                   </Button>
                 </CardActions>
               </Card>
+              {/* <Card >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image="https://picsum.photos/200/300"
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Lizard
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Lizards are a widespread group of squamate reptiles, with
+                      over 6,000 species, ranging across all continents except
+                      Antarctica
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    Share
+                  </Button>
+                </CardActions>
+              </Card> */}
             </Grid>
           )
         )}
