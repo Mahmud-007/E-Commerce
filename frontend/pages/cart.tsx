@@ -48,7 +48,7 @@ const Cart: NextPage = () => {
       console.log({ user });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [addToCart]);
   return (
     <div>
       <Layout title="Cart" />
@@ -87,10 +87,18 @@ const Cart: NextPage = () => {
                 <TableCell align="center">{row.price}</TableCell>
                 <TableCell align="center">{row.quantity}</TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined" onClick={() => addToCart(row)}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => addToCart(row, row.productId, 1)}
+                  >
                     +
                   </Button>
-                  <Button variant="outlined">-</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => addToCart(row, row.productId, -1)}
+                  >
+                    -
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

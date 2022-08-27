@@ -8,7 +8,7 @@ export interface productType {
 
 export type storeContextType = {
   shoppingList: productType[];
-  addToCart: (product: productType) => void;
+  addToCart: (product: productType,id:any,quantity:number) => void;
   getCart: () => void;
 };
 

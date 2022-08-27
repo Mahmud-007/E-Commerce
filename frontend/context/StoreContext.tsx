@@ -4,7 +4,7 @@ import axios from "axios";
 
 const storeContextDefault: storeContextType = {
   shoppingList: [],
-  addToCart: (product: productType) => {},
+  addToCart: (product: productType,id:any,quantity:number) => {},
   getCart: () => {},
 };
 
@@ -14,13 +14,12 @@ export const StoreContext = createContext<storeContextType | null>(
 
 export const StoreProvider = (props: any) => {
   const [shoppingList, setShoppingList] = useState<productType[]>([]);
-  const addToCart = (product: productType) => {
-    console.log("Adding");
-    console.log("product", product);
+  const addToCart = (product: productType,id:any,quantity:number) => {
+    console.log("product");
     // const findProductIndex = shoppingList.findIndex(
     //   (el) => el.id === product.id
     // );
-    // console.log({ findProductIndex });
+    // console.log({ findProductIndex });an
     // if (findProductIndex >= 0) {
     //   shoppingList[findProductIndex].quantity += 1;
     // } else {
@@ -30,11 +29,11 @@ export const StoreProvider = (props: any) => {
       .post(
         "http://localhost:8080/ecom/api/shop/update-cart",
         {
-          productId: product.id,
+          productId: id,
           productName: product.name,
           productPrice: product.price,
           productImage: product.image.src,
-          productQuantity: 1,
+          productQuantity: quantity,
         },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
