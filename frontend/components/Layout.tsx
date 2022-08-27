@@ -11,12 +11,13 @@ import LocalMallIcon from "@material-ui/icons/LocalMall";
 import { StoreContext, StoreProvider } from "../context/StoreContext";
 import { storeContextType, productType, userType } from "../utils/types";
 import { useRouter } from "next/router";
-import { UrlObject } from "url";
 import Link from "next/link";
 import Head from "next/head";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Box from "@mui/material/Box";
+import Avatar from '@mui/material/Avatar';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const ITEM_HEIGHT = 48;
 
 export default function Layout(props: any) {
@@ -43,6 +43,7 @@ export default function Layout(props: any) {
   console.log({ shoppingList });
   const [isCart, setIsCart] = useState(false);
   const [username, setUsername] = useState("");
+  const [avatar,setAvatar] = useState("")
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -55,7 +56,7 @@ export default function Layout(props: any) {
   if (isCart) {
     router.push("/cart");
   }
-
+  console.log({avatar})
   useEffect(() => {
     getCart();
     const userString = localStorage.getItem("User");
@@ -64,6 +65,7 @@ export default function Layout(props: any) {
     } else {
       const user: userType = JSON.parse(userString);
       setUsername(user.username);
+      setAvatar(user.avatar)
       console.log({ user });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,6 +136,7 @@ export default function Layout(props: any) {
                 </Box>
               </MenuItem>
             </Menu>
+            <Avatar alt="Remy Sharp" src={avatar}/>
           </Toolbar>
         </AppBar>
       </div>

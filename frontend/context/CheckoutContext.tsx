@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { productContextType, checkoutType } from "../utils/types";
+import { checkoutType } from "../utils/types";
 
 const checkoutContextDefault: checkoutType = {
   name: "",
@@ -8,22 +8,14 @@ const checkoutContextDefault: checkoutType = {
   region: "",
   area: "",
   country: "",
-  setName: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setPhone: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setCity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setAddress: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setRegion: function (): void {
-    throw new Error("Function not implemented.");
-  },
   phone: "",
+  setName: function (): void { },
+  setPhone: function (): void { },
+  setCity: function (): void { },
+  setAddress: function (): void { },
+  setRegion: function (): void { },
+  setArea: function (): void { },
+  setCountry: function (country: string): void {}
 };
 
 export const CheckoutContext = createContext<checkoutType | null>(
@@ -37,6 +29,7 @@ export const CheckoutProvider = (props: any) => {
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [area,setArea] = useState("");
+  const [country,setCountry] = useState("");
 
   const value = {
     name,
@@ -45,12 +38,14 @@ export const CheckoutProvider = (props: any) => {
     city,
     phone,
     area,
+    country,
     setName,
     setPhone,
     setCity,
     setAddress,
     setRegion,
     setArea,
+    setCountry,
   };
 
   return (

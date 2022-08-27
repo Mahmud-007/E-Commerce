@@ -104,9 +104,9 @@ const Home: NextPage = () => {
   useEffect(() => {
     getProducts();
     const user = localStorage.getItem("User");
-    if (!user) {
-      router.push("/signin");
-    }
+    // if (!user) {
+    //   router.push("/signin");
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

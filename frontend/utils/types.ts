@@ -8,7 +8,7 @@ export interface productType {
 
 export type storeContextType = {
   shoppingList: productType[];
-  addToCart: (product: productType,id:any,quantity:number) => void;
+  addToCart: (product: productType, id: any, quantity: number) => void;
   getCart: () => void;
 };
 
@@ -19,24 +19,40 @@ export type productContextType = {
 export type userType = {
   avatar: string;
   hasBankAccount: boolean;
-  message: string;
   token: string;
-  tokenSecret: string;
   userId: string;
   username: string;
+  message: string;
+};
+
+export type userContextType = {
+  avatar: string;
+  hasBankAccount: boolean;
+  token: string;
+  userId: string;
+  username: string;
+  message: string;
+  setAvatar: (avatar: string) => void;
+  setHasBankAccount: (hasBankAccount: boolean) => void;
+  setToken: (token: string) => void;
+  setUserId: (userId: string) => void;
+  setUsername: (username: string) => void;
+  setMessage: (message: string) => void;
 };
 
 export type checkoutType = {
-  name: string
+  name: string;
   address: string;
   city: string;
   region: string;
   area: string;
   phone: string;
-  setName:()=>void;
-  setPhone:()=>void;
-  setCity:()=>void;
-  setAddress:()=>void;
-  setRegion:()=>void;
-  setArea:()=>void;
+  country: string;
+  setName: (name:string) => void;
+  setPhone: (phone:string) => void;
+  setCity: (city:string) => void;
+  setAddress: (address:string) => void;
+  setRegion: (region:string) => void;
+  setArea: (area:string) => void;
+  setCountry: (country:string) => void;
 };

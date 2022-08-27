@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,10 +16,20 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Copyright from "../components/Copyright";
+import { UserContext } from "../context/UserContext";
+import { userContextType } from "../utils/types";
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const {
+    setAvatar,
+    setHasBankAccount,
+    setToken,
+    setUserId,
+    setUsername,
+    setMessage,
+  } = useContext(UserContext) as userContextType;
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +42,12 @@ export default function SignIn() {
       })
       .then((response) => {
         console.log(response.data);
+        setUsername(response.data.username);
+        setAvatar(response.data.avatar);
+        setHasBankAccount(response.data.hasBankAccount);
+        setToken(response.data.token);
+        setUserId(response.data.userId);
+        setMessage(response.data.message);
         localStorage.setItem("Token", response.data.token);
         localStorage.setItem("User", JSON.stringify(response.data));
         if (response.data.hasBankDetails) {
