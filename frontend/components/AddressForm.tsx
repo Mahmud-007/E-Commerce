@@ -35,6 +35,7 @@ export default function AddressForm() {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            onChange={(e)=>{setName(e.target.value)}}
           />
         </Grid>
         {/* <Grid item xs={12} sm={6}>
@@ -57,6 +58,8 @@ export default function AddressForm() {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
+            onChange={(e)=>{setAddress(e.target.value)}}
+
           />
         </Grid>
         <Grid item xs={12}>
@@ -68,6 +71,7 @@ export default function AddressForm() {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
+            onChange={(e)=>{setPhone(e.target.value)}}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

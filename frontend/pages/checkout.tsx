@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,6 +17,8 @@ import Review from "../components/Review";
 import Layout from "../components/Layout";
 import Copyright from "../components/Copyright";
 import axios from "axios";
+import { CheckoutContext } from "../context/CheckoutContext";
+import { checkoutType } from "../utils/types";
 
 const steps = ["Shipping address", "Review your order"];
 
@@ -40,34 +42,49 @@ export default function Checkout() {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    orderHandler();
   };
 
   const {
     name,
+    area,
+    address,
+    region,
+    city,
+    phone,
     setName,
     setPhone,
     setCity,
     setAddress,
     setRegion,
-    address,
-    region,
-    city,
-    phone,
+    setArea,
   } = useContext(CheckoutContext) as checkoutType;
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const orderHandeler = async () => {
+  const orderHandler = async () => {
     if (activeStep === steps.length - 1) {
-      await axios.put("http://localhost:8080/ecom/api/shop/checkout", {
-        Address:{
-          FullName:
+      await axios.put(
+        "http://localhost:8080/ecom/api/shop/checkout",
+        {
+          address: {
+            FullName: name,
+            Region: region,
+            City: city,
+            Area: area,
+            Address: address,
+            PhoneNumber: phone,
+          },
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
         }
-      },
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+      ).then((res)=>{
+        console.log(res)
+      }).catch((err)=>{
+        console.log(err)
       });
     }
   };
@@ -135,7 +152,6 @@ export default function Checkout() {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
-                    onClick={orderHandeler}
                   >
                     {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>

@@ -32,11 +32,11 @@ export type checkoutType = {
   city: string;
   region: string;
   area: string;
-  country: string;
   phone: string;
   setName:()=>void;
   setPhone:()=>void;
   setCity:()=>void;
   setAddress:()=>void;
   setRegion:()=>void;
+  setArea:()=>void;
 };
