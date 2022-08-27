@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const options = ["Logout"];
 
 const ITEM_HEIGHT = 48;
 
@@ -74,8 +73,8 @@ export default function Layout(props: any) {
       <Head>
         <title>{props.title} | KAIMASU</title>
       </Head>
-      <div className={classes.root}>
-        <AppBar position="static" color="primary">
+      <div className={classes.root} style={{margin:"100px"}}>
+        <AppBar position="fixed" color="primary">
           <Toolbar>
             <IconButton
               edge="start"

@@ -4,6 +4,7 @@ import {
   productType,
   storeContextType,
   productContextType,
+  userType,
 } from "../utils/types";
 import { StoreContext, StoreProvider } from "../context/StoreContext";
 import { NextPage } from "next";
@@ -16,61 +17,46 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Link from "next/link";
+
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    maxWidth: 1000,
   },
 });
-import axios from "axios";
+import MaterialTable from "material-table";
 import { useRouter } from "next/router";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 const Cart: NextPage = () => {
-  const [address, setAddress] = useState("");
-  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
 
+  const { shoppingList, getCart, addToCart } = useContext(
+    StoreContext
+  ) as storeContextType;
   const router = useRouter();
   const classes = useStyles();
-  const { shoppingList, getCart } = useContext(StoreContext) as storeContextType;
   console.log({ shoppingList });
-  const checkoutHanlder = () => {
-    axios
-      .put(
-        "http://localhost:8080/ecom/api/shop/checkout",
-        {
-          address: address,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        setMessage(response.data.message);
-        setTimeout(() => {
-          // empty shopping list
-          router.push("/");
-        }, 5000);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
   useEffect(() => {
     getCart();
-    let user = localStorage.getItem("User");
-    if (!user) {
+    const userString = localStorage.getItem("User");
+    if (!userString) {
       router.push("/signin");
+    } else {
+      const user: userType = JSON.parse(userString);
+      setUsername(user.username);
+      console.log({ user });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>
       <Layout title="Cart" />
-      <h1>Cart</h1>
-      <TableContainer component={Paper}>
+      <h1>Products ordered by {username.toUpperCase()}</h1>
+      <TableContainer
+        component={Paper}
+        style={{ width: "1000px", marginTop: "80px", marginLeft: "350px" }}
+      >
         <Table
           className={classes.table}
           size="small"
@@ -78,9 +64,18 @@ const Cart: NextPage = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Quantity</TableCell>
+              <TableCell>
+                <h3>Product Name</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>Price</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>Quantity</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>Action</h3>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,14 +84,24 @@ const Cart: NextPage = () => {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell align="center">{row.price}</TableCell>
+                <TableCell align="center">{row.quantity}</TableCell>
+                <TableCell align="center">
+                  <Button variant="outlined" onClick={() => addToCart(row)}>
+                    +
+                  </Button>
+                  <Button variant="outlined">-</Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Button sx={{m:2}} variant="contained" onClick={() => router.push("/checkout")}>Checkout</Button>
+      <br />
+      <br />
+      <Button variant="contained" onClick={() => router.push("/checkout")}>
+        Checkout
+      </Button>
     </div>
   );
 };

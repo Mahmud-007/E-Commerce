@@ -22,8 +22,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="">
+        Kaimsu
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -61,6 +61,7 @@ export default function Checkout() {
 
   return (
     <ThemeProvider theme={theme}>
+      <br/><br/><br/><br/>
       <CssBaseline />
       <AppBar
         position="absolute"

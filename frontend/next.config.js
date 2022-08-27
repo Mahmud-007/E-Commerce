@@ -1,9 +1,11 @@
-// /** @type {import('next').NextConfig} */
 // const nextConfig = {
 //   reactStrictMode: true,
 // };
 
 module.exports = {
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
   webpack: (config) => {
     // this is where you add custom configuration for webpack
     return config;
@@ -13,7 +15,8 @@ module.exports = {
   },
   pwa: {
     // this where you add progressive web app setting
-     dest: "public",
-     swSrc: "service-worker.js",
-    },
+    dest: "public",
+    swSrc: "service-worker.js",
+  },
+
 };

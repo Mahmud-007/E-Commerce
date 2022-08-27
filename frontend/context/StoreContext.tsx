@@ -17,15 +17,35 @@ export const StoreProvider = (props: any) => {
   const addToCart = (product: productType) => {
     console.log("Adding");
     console.log("product", product);
-    const findProductIndex = shoppingList.findIndex(
-      (el) => el.id === product.id
-    );
-    console.log({ findProductIndex });
-    if (findProductIndex >= 0) {
-      shoppingList[findProductIndex].quantity += 1;
-    } else {
-      setShoppingList((pre) => [...pre, product]);
-    }
+    // const findProductIndex = shoppingList.findIndex(
+    //   (el) => el.id === product.id
+    // );
+    // console.log({ findProductIndex });
+    // if (findProductIndex >= 0) {
+    //   shoppingList[findProductIndex].quantity += 1;
+    // } else {
+    //   setShoppingList((pre) => [...pre, product]);
+    // }
+    axios
+      .post(
+        "http://localhost:8080/ecom/api/shop/update-cart",
+        {
+          productId: product.id,
+          productName: product.name,
+          productPrice: product.price,
+          productImage: product.image.src,
+          productQuantity: 1,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+        }
+      )
+      .then((response) => {
+        console.log({ response });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const getCart = () => {
     console.log("getCart called");
@@ -36,8 +56,7 @@ export const StoreProvider = (props: any) => {
         },
       })
       .then((response) => {
-        console.log("cart", response.data.cart);
-        // response.data.cart.products.map((item:productType)=>setShoppingList((pre)=>[...pre,item]))
+        console.log("cart", response.data);
         setShoppingList(response.data.cart.products);
       })
       .catch((error) => {

@@ -46,6 +46,7 @@ const defaultProduct: productType = {
 
 const Home: NextPage = () => {
   const [open, setOpen] = useState(false);
+  const [product, setProducts] = useState<productType[]>([]);
   const [modalProduct, setModalProduct] = useState<productType>(defaultProduct);
 
   const { addToCart } = useContext(StoreContext) as storeContextType;
@@ -54,36 +55,53 @@ const Home: NextPage = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleAddToCart = (product: productType) => {
-    addToCart(product);
-    console.log("product", product);
-    axios
-      .post(
-        "http://localhost:8080/ecom/api/shop/update-cart",
-        {
-          productId: product.id,
-          productName: product.name,
-          productPrice: product.price,
-          productImage: product.image.src,
-          productQuantity: 1,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
-        }
-      )
-      .then((response) => {
-        console.log({ response });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handleAddToCart = async (product: productType) => {
+  //   addToCart(product);
+  //   console.log("product", product);
+  //   await axios
+  //     .post(
+  //       "http://localhost:8080/ecom/api/shop/update-cart",
+  //       {
+  //         productId: product.id,
+  //         productName: product.name,
+  //         productPrice: product.price,
+  //         productImage: product.image,
+  //         productQuantity: 1,
+  //       },
+  //       {
+  //         headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log({ response });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const modalHandler = (product: any) => {
     console.log({ product });
     setModalProduct(product);
     handleOpen();
   };
+
+  const getProducts = async () => {
+    await axios
+      .get("http://localhost:8080/ecom/api/shop/products", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+      })
+      .then((res) => {
+        console.log("res", res.data);
+        res.data.products.map((product: productType) =>
+          setProducts((pre) => [...pre, product])
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
+    getProducts();
     const user = localStorage.getItem("User");
     if (!user) {
       router.push("/signin");
@@ -121,34 +139,33 @@ const Home: NextPage = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {productList.map(
-          (product: { name: string; image: any; price: number }) => (
-            <Grid item md={3} key={product.name} justifyContent="center">
-              <Card>
-                <CardActionArea>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width="500px"
-                    height="450px"
-                    onClick={() => modalHandler(product)}
-                  />
-                  <CardContent>
-                    <Typography>{product.name}</Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Typography>${product.price}</Typography>
-                  <Button
-                    onClick={() => handleAddToCart(product as productType)}
-                    size="small"
-                    color="primary"
-                  >
-                    Add to cart
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* <Card >
+        {product.map((product: { name: string; image: any; price: number }) => (
+          <Grid item md={3} key={product.name} justifyContent="center">
+            <Card>
+              <CardActionArea>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width="500px"
+                  height="450px"
+                  onClick={() => modalHandler(product)}
+                />
+                <CardContent>
+                  <Typography>{product.name}</Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Typography>${product.price}</Typography>
+                <Button
+                  onClick={() => addToCart(product as productType)}
+                  size="small"
+                  color="primary"
+                >
+                  Add to cart
+                </Button>
+              </CardActions>
+            </Card>
+            {/* <Card >
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -173,9 +190,8 @@ const Home: NextPage = () => {
                   </Button>
                 </CardActions>
               </Card> */}
-            </Grid>
-          )
-        )}
+          </Grid>
+        ))}
       </Grid>
     </div>
   );
@@ -190,8 +206,3 @@ export const getServerSideProps = async () => {
     },
   };
 };
-function handleAddToCart(
-  arg0: productType
-): React.MouseEventHandler<HTMLButtonElement> | undefined {
-  throw new Error("Function not implemented.");
-}
