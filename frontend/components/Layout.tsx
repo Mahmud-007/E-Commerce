@@ -73,7 +73,7 @@ export default function Layout(props: any) {
       <Head>
         <title>{props.title} | KAIMASU</title>
       </Head>
-      <div className={classes.root} style={{margin:"100px"}}>
+      <div className={classes.root}>
         <AppBar position="fixed" color="primary">
           <Toolbar>
             <IconButton

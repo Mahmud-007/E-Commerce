@@ -16,15 +16,6 @@ export const StoreProvider = (props: any) => {
   const [shoppingList, setShoppingList] = useState<productType[]>([]);
   const addToCart = (product: productType,id:any,quantity:number) => {
     console.log("product");
-    // const findProductIndex = shoppingList.findIndex(
-    //   (el) => el.id === product.id
-    // );
-    // console.log({ findProductIndex });an
-    // if (findProductIndex >= 0) {
-    //   shoppingList[findProductIndex].quantity += 1;
-    // } else {
-    //   setShoppingList((pre) => [...pre, product]);
-    // }
     axios
       .post(
         "http://localhost:8080/ecom/api/shop/update-cart",

@@ -1,86 +1,105 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddressForm from '../components/AddressForm';
-import PaymentForm from '../components/PaymentForm';
-import Review from '../components/Review';
+import React, { useState,useContext } from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Paper from "@mui/material/Paper";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import AddressForm from "../components/AddressForm";
+import PaymentForm from "../components/PaymentForm";
+import Review from "../components/Review";
 import Layout from "../components/Layout";
+import Copyright from "../components/Copyright";
+import axios from "axios";
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="">
-        Kaimsu
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ["Shipping address", "Review your order"];
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <AddressForm />;
     case 1:
-      return <PaymentForm />;
-    case 2:
       return <Review />;
+    // case 2:
+    //   return <Review />;
     default:
-      throw new Error('Unknown step');
+      throw new Error("Unknown step");
   }
 }
 
 const theme = createTheme();
 
 export default function Checkout() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
 
+  const {
+    name,
+    setName,
+    setPhone,
+    setCity,
+    setAddress,
+    setRegion,
+    address,
+    region,
+    city,
+    phone,
+  } = useContext(CheckoutContext) as checkoutType;
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const orderHandeler = async () => {
+    if (activeStep === steps.length - 1) {
+      await axios.put("http://localhost:8080/ecom/api/shop/checkout", {
+        Address:{
+          FullName:
+        }
+      },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+      });
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <br/><br/><br/><br/>
+      <br />
+      <br />
+      <br />
+      <br />
       <CssBaseline />
       <AppBar
         position="absolute"
         color="default"
         elevation={0}
         sx={{
-          position: 'relative',
+          position: "relative",
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       >
-        {/* <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
+        <Toolbar>
+          {/* <Typography variant="h6" color="inherit" noWrap>
             Company name
-          </Typography>
-        </Toolbar> */}
-      <Layout title="Checkout" />
+          </Typography> */}
+        </Toolbar>
+        <Layout title="Checkout" />
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
           <Typography component="h1" variant="h4" align="center">
             Checkout
           </Typography>
@@ -106,7 +125,7 @@ export default function Checkout() {
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back
@@ -116,8 +135,9 @@ export default function Checkout() {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
+                    onClick={orderHandeler}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>
                 </Box>
               </React.Fragment>

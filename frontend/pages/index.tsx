@@ -92,9 +92,10 @@ const Home: NextPage = () => {
       })
       .then((res) => {
         console.log("res", res.data);
-        res.data.products.map((product: productType) =>
-          setProducts((pre) => [...pre, product])
-        );
+        // res.data.products.map((product: productType) =>
+        //   setProducts((pre) => [...pre, product])
+        // );
+        setProducts(res.data.products)
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +112,6 @@ const Home: NextPage = () => {
   return (
     <div>
       <Layout title="Shop" />
-      <h1>Products</h1>
       <Modal
         open={open}
         onClose={handleClose}
@@ -132,40 +132,45 @@ const Home: NextPage = () => {
           <Typography>Price: ${modalProduct.price}</Typography>
         </Box>
       </Modal>
-      <Grid
-        container
-        spacing={10}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {product.map((product: { name: string; image: any; price: number }) => (
-          <Grid item md={3} key={product.name} justifyContent="center">
-            <Card>
-              <CardActionArea>
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width="500px"
-                  height="450px"
-                  onClick={() => modalHandler(product)}
-                />
-                <CardContent>
-                  <Typography>{product.name}</Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Typography>${product.price}</Typography>
-                <Button
-                  onClick={() => addToCart(product as productType)}
-                  size="small"
-                  color="primary"
-                >
-                  Add to cart
-                </Button>
-              </CardActions>
-            </Card>
-            {/* <Card >
+      <div style={{ marginTop: "100px" }}>
+        <h1>Products</h1>
+        <Grid
+          container
+          spacing={10}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {product.map(
+            (product: {
+              [x: string]: any; name: string; image: any; price: number 
+}) => (
+              <Grid item md={3} key={product.name} justifyContent="center">
+                <Card>
+                  <CardActionArea>
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width="500px"
+                      height="450px"
+                      onClick={() => modalHandler(product)}
+                    />
+                    <CardContent>
+                      <Typography>{product.name}</Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Typography>${product.price}</Typography>
+                    <Button
+                      onClick={() => addToCart(product as productType,product.id,1)}
+                      size="small"
+                      color="primary"
+                    >
+                      Add to cart
+                    </Button>
+                  </CardActions>
+                </Card>
+                {/* <Card >
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -190,9 +195,11 @@ const Home: NextPage = () => {
                   </Button>
                 </CardActions>
               </Card> */}
-          </Grid>
-        ))}
-      </Grid>
+              </Grid>
+            )
+          )}
+        </Grid>
+      </div>
     </div>
   );
 };

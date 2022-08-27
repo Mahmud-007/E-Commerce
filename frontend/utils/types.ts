@@ -25,3 +25,18 @@ export type userType = {
   userId: string;
   username: string;
 };
+
+export type checkoutType = {
+  name: string
+  address: string;
+  city: string;
+  region: string;
+  area: string;
+  country: string;
+  phone: string;
+  setName:()=>void;
+  setPhone:()=>void;
+  setCity:()=>void;
+  setAddress:()=>void;
+  setRegion:()=>void;
+};
