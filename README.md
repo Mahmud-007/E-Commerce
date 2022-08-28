@@ -1,5 +1,5 @@
 
-# E-Commerce
+# Kaimasu
 
 This is the [NextJS](https://nextjs.org/) frontend app for **Kaimasu** - a demo online store. 
 
