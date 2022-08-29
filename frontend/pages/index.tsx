@@ -49,40 +49,22 @@ const Home: NextPage = () => {
   const [product, setProducts] = useState<productType[]>([]);
   const [modalProduct, setModalProduct] = useState<productType>(defaultProduct);
 
-  const { addToCart } = useContext(StoreContext) as storeContextType;
+  const { addToCart, getCart } = useContext(StoreContext) as storeContextType;
   const { productList } = useContext(ProductContext) as productContextType;
   const router = useRouter();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const handleAddToCart = async (product: productType) => {
-  //   addToCart(product);
-  //   console.log("product", product);
-  //   await axios
-  //     .post(
-  //       "http://localhost:8080/ecom/api/shop/update-cart",
-  //       {
-  //         productId: product.id,
-  //         productName: product.name,
-  //         productPrice: product.price,
-  //         productImage: product.image,
-  //         productQuantity: 1,
-  //       },
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       console.log({ response });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+
   const modalHandler = (product: any) => {
     console.log({ product });
     setModalProduct(product);
     handleOpen();
+  };
+
+  const handleAddToCart = (item: productType) => {
+    addToCart(item, item.id, 1);
+    setTimeout(getCart, 500);
   };
 
   const getProducts = async () => {
@@ -92,10 +74,7 @@ const Home: NextPage = () => {
       })
       .then((res) => {
         console.log("res", res.data);
-        // res.data.products.map((product: productType) =>
-        //   setProducts((pre) => [...pre, product])
-        // );
-        setProducts(res.data.products)
+        setProducts(res.data.products);
       })
       .catch((err) => {
         console.log(err);
@@ -143,8 +122,11 @@ const Home: NextPage = () => {
         >
           {product.map(
             (product: {
-              [x: string]: any; name: string; image: any; price: number 
-}) => (
+              [x: string]: any;
+              name: string;
+              image: any;
+              price: number;
+            }) => (
               <Grid item md={3} key={product.name} justifyContent="center">
                 <Card>
                   <CardActionArea>
@@ -162,7 +144,9 @@ const Home: NextPage = () => {
                   <CardActions>
                     <Typography>${product.price}</Typography>
                     <Button
-                      onClick={() => addToCart(product as productType,product.id,1)}
+                      onClick={() =>
+                        handleAddToCart(product as productType, product.id, 1)
+                      }
                       size="small"
                       color="primary"
                     >

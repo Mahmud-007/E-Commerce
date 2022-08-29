@@ -18,7 +18,8 @@ import Layout from "../components/Layout";
 import Copyright from "../components/Copyright";
 import axios from "axios";
 import { CheckoutContext } from "../context/CheckoutContext";
-import { checkoutType } from "../utils/types";
+import { StoreContext } from "../context/StoreContext";
+import { checkoutType, storeContextType } from "../utils/types";
 
 const steps = ["Shipping address", "Review your order"];
 
@@ -59,33 +60,39 @@ export default function Checkout() {
     setRegion,
     setArea,
   } = useContext(CheckoutContext) as checkoutType;
-
+  const { getCart } = useContext(StoreContext) as storeContextType;
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
   const orderHandler = async () => {
     if (activeStep === steps.length - 1) {
-      await axios.put(
-        "http://localhost:8080/ecom/api/shop/checkout",
-        {
-          address: {
-            FullName: name,
-            Region: region,
-            City: city,
-            Area: area,
-            Address: address,
-            PhoneNumber: phone,
+      await axios
+        .put(
+          "http://localhost:8080/ecom/api/shop/checkout",
+          {
+            address: {
+              FullName: name,
+              Region: region,
+              City: city,
+              Area: area,
+              Address: address,
+              PhoneNumber: phone,
+            },
           },
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
-        }
-      ).then((res)=>{
-        console.log(res)
-      }).catch((err)=>{
-        console.log(err)
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log("res", res);
+          getCart();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

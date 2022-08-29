@@ -30,13 +30,23 @@ import Button from "@mui/material/Button";
 const Cart: NextPage = () => {
   const [username, setUsername] = useState("");
 
-  const { shoppingList, getCart, addToCart } = useContext(
+  const { shoppingList, getCart, addToCart,totalPrice } = useContext(
     StoreContext
   ) as storeContextType;
   const router = useRouter();
   const classes = useStyles();
   console.log({ shoppingList });
 
+  const incrementItem = (item: any) => {
+    addToCart(item, item.productId, 1);
+    setTimeout(getCart, 500);
+  };
+  const decrementItem = (item: any) => {
+    if (item.quantity > 0) {
+      addToCart(item, item.productId, -1);
+    }
+    setTimeout(getCart, 500);
+  };
   useEffect(() => {
     getCart();
     const userString = localStorage.getItem("User");
@@ -48,7 +58,7 @@ const Cart: NextPage = () => {
       console.log({ user });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToCart]);
+  }, []);
   return (
     <div>
       <Layout title="Cart" />
@@ -87,16 +97,10 @@ const Cart: NextPage = () => {
                 <TableCell align="center">{row.price}</TableCell>
                 <TableCell align="center">{row.quantity}</TableCell>
                 <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    onClick={() => addToCart(row, row.productId, 1)}
-                  >
+                  <Button variant="outlined" onClick={() => incrementItem(row)}>
                     +
                   </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => addToCart(row, row.productId, -1)}
-                  >
+                  <Button variant="outlined" onClick={() => decrementItem(row)}>
                     -
                   </Button>
                 </TableCell>
@@ -110,6 +114,7 @@ const Cart: NextPage = () => {
       <Button variant="contained" onClick={() => router.push("/checkout")}>
         Checkout
       </Button>
+      <h1>{totalPrice}</h1>
     </div>
   );
 };

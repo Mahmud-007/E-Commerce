@@ -4,8 +4,9 @@ import axios from "axios";
 
 const storeContextDefault: storeContextType = {
   shoppingList: [],
-  addToCart: (product: productType,id:any,quantity:number) => {},
+  addToCart: (product: productType, id: any, quantity: number) => {},
   getCart: () => {},
+  totalPrice: 0,
 };
 
 export const StoreContext = createContext<storeContextType | null>(
@@ -14,7 +15,8 @@ export const StoreContext = createContext<storeContextType | null>(
 
 export const StoreProvider = (props: any) => {
   const [shoppingList, setShoppingList] = useState<productType[]>([]);
-  const addToCart = (product: productType,id:any,quantity:number) => {
+  const [totalPrice, setTotalPrice] = useState(0);
+  const addToCart = (product: productType, id: any, quantity: number) => {
     console.log("product");
     axios
       .post(
@@ -47,7 +49,13 @@ export const StoreProvider = (props: any) => {
       })
       .then((response) => {
         console.log("cart", response.data);
-        setShoppingList(response.data.cart.products);
+        let products = response.data.cart.products;
+        setShoppingList(products);
+        let price = 0;
+        for (let i = 0; i < products.length; i++) {
+          price = price + products[i].price * products[i].quantity;
+        }
+        setTotalPrice(price);
       })
       .catch((error) => {
         console.log(error);
@@ -57,6 +65,7 @@ export const StoreProvider = (props: any) => {
     shoppingList,
     addToCart,
     getCart,
+    totalPrice,
   };
   return (
     <StoreContext.Provider value={value}>
