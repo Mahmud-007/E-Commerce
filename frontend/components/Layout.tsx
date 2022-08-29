@@ -132,7 +132,7 @@ export default function Layout(props: any) {
                     router.push("/signin");
                   }}
                 >
-                  Logout
+                  {"  "}Logout
                 </Box>
               </MenuItem>
             </Menu>
