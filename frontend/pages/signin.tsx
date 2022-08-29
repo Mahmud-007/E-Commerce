@@ -22,14 +22,14 @@ import { userContextType } from "../utils/types";
 const theme = createTheme();
 
 export default function SignIn() {
-  const {
-    setAvatar,
-    setHasBankAccount,
-    setToken,
-    setUserId,
-    setUsername,
-    setMessage,
-  } = useContext(UserContext) as userContextType;
+  // const {
+  //   setAvatar,
+  //   setHasBankAccount,
+  //   setToken,
+  //   setUserId,
+  //   setUsername,
+  //   setMessage,
+  // } = useContext(UserContext) as userContextType;
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,12 +42,12 @@ export default function SignIn() {
       })
       .then((response) => {
         console.log(response.data);
-        setUsername(response.data.username);
-        setAvatar(response.data.avatar);
-        setHasBankAccount(response.data.hasBankAccount);
-        setToken(response.data.token);
-        setUserId(response.data.userId);
-        setMessage(response.data.message);
+        // setUsername(response.data.username);
+        // setAvatar(response.data.avatar);
+        // setHasBankAccount(response.data.hasBankAccount);
+        // setToken(response.data.token);
+        // setUserId(response.data.userId);
+        // setMessage(response.data.message);
         localStorage.setItem("Token", response.data.token);
         localStorage.setItem("User", JSON.stringify(response.data));
         if (response.data.hasBankDetails) {

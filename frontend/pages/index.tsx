@@ -145,7 +145,7 @@ const Home: NextPage = () => {
                     <Typography>${product.price}</Typography>
                     <Button
                       onClick={() =>
-                        handleAddToCart(product as productType, product.id, 1)
+                        handleAddToCart(product as productType)
                       }
                       size="small"
                       color="primary"
