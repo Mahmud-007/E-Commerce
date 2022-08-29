@@ -87,8 +87,8 @@ export default function Checkout() {
           }
         )
         .then((res) => {
-          console.log("res", res);
-          getCart();
+          console.log("checkout", res);
+          setTimeout(getCart, 500);
         })
         .catch((err) => {
           console.log(err);

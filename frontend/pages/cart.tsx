@@ -108,13 +108,13 @@ const Cart: NextPage = () => {
             ))}
           </TableBody>
         </Table>
+        <h2 style={{margin:"15px"}}>Total Price : {totalPrice}</h2>
+        <Button style={{margin:"15px"}} variant="contained" onClick={() => router.push("/checkout")}>
+        proceed to Checkout
+      </Button>
       </TableContainer>
       <br />
       <br />
-      <Button variant="contained" onClick={() => router.push("/checkout")}>
-        Checkout
-      </Button>
-      <h1>{totalPrice}</h1>
     </div>
   );
 };

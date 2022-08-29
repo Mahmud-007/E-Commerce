@@ -10,7 +10,7 @@ export type storeContextType = {
   shoppingList: productType[];
   addToCart: (product: productType, id: any, quantity: number) => void;
   getCart: () => void;
-  totalPrice: Number;
+  totalPrice: number;
 };
 
 export type productContextType = {
