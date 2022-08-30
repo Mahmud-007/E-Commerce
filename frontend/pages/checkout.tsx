@@ -20,6 +20,7 @@ import axios from "axios";
 import { CheckoutContext } from "../context/CheckoutContext";
 import { StoreContext } from "../context/StoreContext";
 import { checkoutType, storeContextType } from "../utils/types";
+import Link from "next/link";
 
 const steps = ["Shipping address", "Review your order"];
 
@@ -53,12 +54,14 @@ export default function Checkout() {
     region,
     city,
     phone,
+    transactionId,
     setName,
     setPhone,
     setCity,
     setAddress,
     setRegion,
     setArea,
+    setTransactionId,
   } = useContext(CheckoutContext) as checkoutType;
   const { getCart } = useContext(StoreContext) as storeContextType;
   const handleBack = () => {
@@ -88,6 +91,8 @@ export default function Checkout() {
         )
         .then((res) => {
           console.log("checkout", res);
+          const id:string = res.data.order.transactionId;
+          setTimeout(setTransactionId(id),500);
           setTimeout(getCart, 500);
         })
         .catch((err) => {
@@ -141,9 +146,12 @@ export default function Checkout() {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  Your order transaction ID is <b>{transactionId}</b>{" "}
+                  To verify your order, please enter your order transaction ID
+                  to <Link href={"transaction"}>
+                    Transaction Varification
+                  </Link>{" "}
+                  page.
                 </Typography>
               </React.Fragment>
             ) : (

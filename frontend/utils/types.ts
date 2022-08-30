@@ -49,6 +49,7 @@ export type checkoutType = {
   area: string;
   phone: string;
   country: string;
+  transactionId:string;
   setName: (name:string) => void;
   setPhone: (phone:string) => void;
   setCity: (city:string) => void;
@@ -56,4 +57,5 @@ export type checkoutType = {
   setRegion: (region:string) => void;
   setArea: (area:string) => void;
   setCountry: (country:string) => void;
+  setTransactionId: (transactionId:string) => void;
 };
